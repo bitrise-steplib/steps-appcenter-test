@@ -53,7 +53,7 @@ workflows:
         inputs:
         - token: $API_TOKEN
         - app: app-center-bot/Multiplatform-Android-1
-        - framework: Espresso
+        - framework: espresso
         - devices: cdf43495
         - series: master
         - locale: en_US
@@ -106,7 +106,7 @@ workflows:
         inputs:
         - token: $API_TOKEN
         - app: app-center-bot/Multiplatform-iOS
-        - framework: XCUITest
+        - framework: xcuitest
         - devices: d96fcd69
         - series: master
         - locale: en_US
@@ -166,7 +166,7 @@ workflows:
         inputs:
         - token: $API_TOKEN
         - app: app-center-bot/Multiplatform-Android-1
-        - framework: Calabash
+        - framework: calabash
         - devices: de2bf7dc
         - series: master
         - locale: en_US
@@ -188,7 +188,7 @@ workflows:
         inputs:
         - token: $API_TOKEN
         - app: app-center-bot/Multiplatform-iOS
-        - framework: Calabash
+        - framework: calabash
         - devices: a5971a47
         - series: master
         - locale: en_US
@@ -234,7 +234,7 @@ workflows:
         inputs:
         - token: $API_TOKEN
         - app: app-center-bot/Multiplatform-iOS
-        - framework: Xamarin.UITest
+        - framework: uitest
         - devices: 889ccb19
         - series: master
         - locale: en_US
@@ -255,7 +255,7 @@ workflows:
         inputs:
         - token: $API_TOKEN
         - app: app-center-bot/Multiplatform-Android-1
-        - framework: Xamarin.UITest
+        - framework: uitest
         - devices: dc5d03f9
         - series: master
         - locale: en_US

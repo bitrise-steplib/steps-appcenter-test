@@ -7,7 +7,6 @@ import (
 
 	"github.com/bitrise-io/go-utils/command"
 	"github.com/bitrise-io/go-utils/log"
-	"github.com/bitrise-steplib/steps-appcenter-test/appcenter"
 	"github.com/bitrise-tools/go-steputils/stepconf"
 )
 
@@ -15,7 +14,7 @@ import (
 type Configs struct {
 	Token         string `env:"token,required"`
 	App           string `env:"app,required"`
-	TestFramework string `env:"framework,required"`
+	TestFramework string `env:"framework,opt[appium,calabash,espresso,xcuitest,uitest]"`
 	Devices       string `env:"devices,required"`
 	Series        string `env:"series,required"`
 	Locale        string `env:"locale,required"`
@@ -33,6 +32,27 @@ func installedInPath(name string) bool {
 func failf(format string, v ...interface{}) {
 	log.Errorf(format, v...)
 	os.Exit(1)
+}
+
+func uploadTestCommand(apiToken, framework, app, devices, series, local, appPath, dsymDir, testDir string) *command.Model {
+	args := []string{"test", "run", string(framework),
+		"--token", apiToken,
+		"--app", app,
+		"--devices", devices,
+		"--test-series", series,
+		"--locale", local,
+		"--async",
+		"--app-path", appPath,
+	}
+	if dsymDir != "" {
+		args = append(args, "--dsym-dir", dsymDir)
+	}
+	if framework == "calabash" {
+		args = append(args, "--project-dir", testDir)
+	} else {
+		args = append(args, "--build-dir", testDir)
+	}
+	return command.New("appcenter", args...)
 }
 
 func main() {
@@ -53,13 +73,7 @@ func main() {
 		}
 	}
 
-	framework, ok := appcenter.ParseTestFramework(cfg.TestFramework)
-	if !ok {
-		failf("Invalid test framework: %s, available: %s", framework, strings.Join(appcenter.AvailableTestFrameworks, ", "))
-	}
-
-	client := appcenter.NewClient(cfg.Token)
-	cmd := client.UploadTestCommand(framework, cfg.App, cfg.Devices, cfg.Series, cfg.Locale, cfg.AppPath, cfg.DSYMDir, cfg.TestDir).SetStdout(os.Stdout).SetStderr(os.Stderr)
+	cmd := uploadTestCommand(cfg.Token, cfg.TestFramework, cfg.App, cfg.Devices, cfg.Series, cfg.Locale, cfg.AppPath, cfg.DSYMDir, cfg.TestDir).SetStdout(os.Stdout).SetStderr(os.Stderr)
 
 	log.Infof("\nUploading and scheduling tests")
 	log.Donef("$ %s", cmd.PrintableCommandArgs())

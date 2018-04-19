@@ -51,11 +51,11 @@ inputs:
     summary: The used testing framework name
     description: The used testing framework name
     value_options:
-    - Appium
-    - Calabash
-    - Espresso
-    - XCUITest
-    - Xamarin.UITest
+    - appium
+    - calabash
+    - espresso
+    - xcuitest
+    - uitest
     is_expand: true
     is_required: true
 - devices:
