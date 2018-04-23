@@ -3,7 +3,6 @@ package main
 import (
 	"os"
 	"os/exec"
-	"strings"
 
 	"github.com/bitrise-io/go-utils/command"
 	"github.com/bitrise-io/go-utils/log"
@@ -21,12 +20,6 @@ type Configs struct {
 	AppPath       string `env:"app_path,file"`
 	DSYMDir       string `env:"dsym_dir"`
 	TestDir       string `env:"test_dir,dir"`
-}
-
-func installedInPath(name string) bool {
-	cmd := exec.Command("which", name)
-	outBytes, err := cmd.Output()
-	return err == nil && strings.TrimSpace(string(outBytes)) != ""
 }
 
 func failf(format string, v ...interface{}) {
@@ -62,7 +55,7 @@ func main() {
 	}
 	stepconf.Print(cfg)
 
-	if !installedInPath("appcenter") {
+	if _, err := exec.LookPath("appcenter"); err != nil {
 		cmd := command.New("npm", "install", "-g", "appcenter-cli")
 
 		log.Infof("\nInstalling appcenter-cli")
