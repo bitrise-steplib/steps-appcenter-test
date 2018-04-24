@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"os"
 	"os/exec"
 
@@ -20,11 +21,6 @@ type Configs struct {
 	AppPath       string `env:"app_path,file"`
 	DSYMDir       string `env:"dsym_dir"`
 	TestDir       string `env:"test_dir,dir"`
-}
-
-func failf(format string, v ...interface{}) {
-	log.Errorf(format, v...)
-	os.Exit(1)
 }
 
 func uploadTestCommand(apiToken, framework, app, devices, series, local, appPath, dsymDir, testDir string) *command.Model {
@@ -48,10 +44,10 @@ func uploadTestCommand(apiToken, framework, app, devices, series, local, appPath
 	return command.New("appcenter", args...)
 }
 
-func main() {
+func mainE() error {
 	var cfg Configs
 	if err := stepconf.Parse(&cfg); err != nil {
-		failf("Couldn't create config: %s", err)
+		return fmt.Errorf("Couldn't create config: %s", err)
 	}
 	stepconf.Print(cfg)
 
@@ -62,7 +58,7 @@ func main() {
 		log.Donef("$ %s", cmd.PrintableCommandArgs())
 
 		if out, err := cmd.RunAndReturnTrimmedCombinedOutput(); err != nil {
-			failf("Failed to install appcenter-cli: %s", out)
+			return fmt.Errorf("Failed to install appcenter-cli: %s", out)
 		}
 	}
 
@@ -72,7 +68,14 @@ func main() {
 	log.Donef("$ %s", cmd.PrintableCommandArgs())
 
 	if err := cmd.Run(); err != nil {
-		failf("Upload failed, error: %s", err)
+		return fmt.Errorf("Upload failed, error: %s", err)
 	}
+	return nil
+}
 
+func main() {
+	if err := mainE(); err != nil {
+		log.Errorf("%s", err)
+		os.Exit(1)
+	}
 }
