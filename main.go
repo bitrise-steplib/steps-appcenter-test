@@ -21,9 +21,11 @@ type Configs struct {
 	AppPath       string `env:"app_path,file"`
 	DSYMDir       string `env:"dsym_dir"`
 	TestDir       string `env:"test_dir,dir"`
+	Include       string `env:"include_category"`
+	Exclude       string `env:"exclude_category"`
 }
 
-func uploadTestCommand(apiToken, framework, app, devices, series, local, appPath, dsymDir, testDir string) *command.Model {
+func uploadTestCommand(apiToken, framework, app, devices, series, local, appPath, dsymDir, testDir, include, exclude string) *command.Model {
 	args := []string{"test", "run", string(framework),
 		"--token", apiToken,
 		"--app", app,
@@ -40,6 +42,12 @@ func uploadTestCommand(apiToken, framework, app, devices, series, local, appPath
 		args = append(args, "--project-dir", testDir)
 	} else {
 		args = append(args, "--build-dir", testDir)
+	}
+	if include != "" {
+		args = append(args, "--include-category", include)
+	}
+	if exclude != "" {
+		args = append(args, "--exclude-category", exclude)
 	}
 	return command.New("appcenter", args...)
 }
@@ -62,7 +70,7 @@ func mainE() error {
 		}
 	}
 
-	cmd := uploadTestCommand(cfg.Token, cfg.TestFramework, cfg.App, cfg.Devices, cfg.Series, cfg.Locale, cfg.AppPath, cfg.DSYMDir, cfg.TestDir).SetStdout(os.Stdout).SetStderr(os.Stderr)
+	cmd := uploadTestCommand(cfg.Token, cfg.TestFramework, cfg.App, cfg.Devices, cfg.Series, cfg.Locale, cfg.AppPath, cfg.DSYMDir, cfg.TestDir, cfg.Include, cfg.Exclude).SetStdout(os.Stdout).SetStderr(os.Stderr)
 
 	log.Infof("\nUploading and scheduling tests")
 	log.Donef("$ %s", cmd.PrintableCommandArgs())
