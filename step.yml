@@ -112,39 +112,14 @@ inputs:
       - For XCUITest tests: path to the build output directory (usually <project>/Build/Products/Debug-iphoneos)
     is_expand: true
     is_required: true
-- include_category:
+- additional_options:
   opts:
-    title: Category to include in the test run
-    summary: Category to include in the test run
+    title: Additional options for test run
+    summary: Additional options for test run
     description: |-
-      Category to include in the test run
+      Options added to the end of the test run.
 
-      To include a combination of categories (per [NUnit documentation](http://nunit.org/docs/2.6.4/consoleCommandLine.html))
-      - A|B|C: Selects tests having any of the categories A, B or C.
-      - A,B,C: Selects tests having any of the categories A, B or C.
-      - A+B+C: Selects only tests having all three of the categories assigned
-      - A+B|C: Selects tests with both A and B OR with category C.
-      - A+B-C: Selects tests with both A and B but not C.
-      - A: Selects tests not having category A assigned
-      - A+(B|C): Selects tests having both category A and either of B or C
-      - A+B,C: Selects tests having both category A and either of B or C
-    is_expand: true
-    is_required: false
-- exclude_category:
-  opts:
-    title: Category to exclude in the test run
-    summary: Category to exclude in the test run
-    description: |-
-      Category to exclude in the test run
-
-      To exclude a combination of categories (per [NUnit documentation](http://nunit.org/docs/2.6.4/consoleCommandLine.html))
-      - A|B|C: Selects tests having any of the categories A, B or C.
-      - A,B,C: Selects tests having any of the categories A, B or C.
-      - A+B+C: Selects only tests having all three of the categories assigned
-      - A+B|C: Selects tests with both A and B OR with category C.
-      - A+B-C: Selects tests with both A and B but not C.
-      - A: Selects tests not having category A assigned
-      - A+(B|C): Selects tests having both category A and either of B or C
-      - A+B,C: Selects tests having both category A and either of B or C
+      You can use multiple options, separated by a space
+      character. Example `--include-category A|B|C --exclude-cataegory D`
     is_expand: true
     is_required: false
