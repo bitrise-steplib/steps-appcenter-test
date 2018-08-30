@@ -52,7 +52,7 @@ workflows:
         title: step Test - Android Espresso
         inputs:
         - token: $API_TOKEN
-        - app: bot.dev.port/Multiplatform-Android
+        - app: app-center-bot/Multiplatform-Android
         - framework: espresso
         - devices: e815328f
         - series: master
@@ -105,7 +105,7 @@ workflows:
         title: Step Test - iOS XCUItest
         inputs:
         - token: $API_TOKEN
-        - app: bot.dev.port/Multiplatform-iOS
+        - app: app-center-bot/Multiplatform-iOS
         - framework: xcuitest
         - devices: 96162a33
         - series: master
@@ -165,7 +165,7 @@ workflows:
         title: step Test - Xamarin Android Calabash
         inputs:
         - token: $API_TOKEN
-        - app: bot.dev.port/Multiplatform-Android
+        - app: app-center-bot/Multiplatform-Android
         - framework: calabash
         - devices: 72656484
         - series: master
@@ -187,7 +187,7 @@ workflows:
         title: step Test - Xamarin iOS Calabash
         inputs:
         - token: $API_TOKEN
-        - app: bot.dev.port/Multiplatform-iOS
+        - app: app-center-bot/Multiplatform-iOS
         - framework: calabash
         - devices: 068f88f4
         - series: master
@@ -233,7 +233,7 @@ workflows:
         title: step test - Xamarin iOS Xamarin.UITest
         inputs:
         - token: $API_TOKEN
-        - app: bot.dev.port/Multiplatform-iOS
+        - app: app-center-bot/Multiplatform-iOS
         - framework: uitest
         - devices: dc6f9bc0
         - series: master
@@ -255,7 +255,7 @@ workflows:
         title: step test - Xamarin Android Xamarin.UITest
         inputs:
         - token: $API_TOKEN
-        - app: bot.dev.port/Multiplatform-Android
+        - app: app-center-bot/Multiplatform-Android
         - framework: uitest
         - devices: 4f15994c
         - series: master
